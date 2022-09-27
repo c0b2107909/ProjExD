@@ -1,7 +1,9 @@
 import random
 from datetime import datetime
 
-alp = list("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+alp = []
+for i in range(65, 91):
+    alp.append(chr(i))
 target_num = 10
 defect_num= 2
 max_num = 2
