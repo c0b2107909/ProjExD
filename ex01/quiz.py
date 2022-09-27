@@ -7,7 +7,7 @@ QaA = {"サザエの旦那の名前は？":["マスオ", "ますお"],
 
 def shutudai():
     q, a = random.choice(list(QaA.items()))
-    print(q)
+    print(f"問題：\n{q}")
     return a
     
 def kaito(ls):
