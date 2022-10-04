@@ -11,8 +11,8 @@ def btn_click(event):
         entry.insert(tk.END, num)
     #tkm.showinfo(txt, f"[{txt}]ボタンが押されました")
     
-# def ac_click(event):
-#     entry.delete(0, tk.END)
+def ac_click(event):
+    entry.delete(0, tk.END)
     
 def delete_click(event):
     str = entry.get()[:-1]
@@ -76,11 +76,11 @@ for i, num in enumerate(numbers, 1):
             c = 1
 
 #-----ACボタン-------
-# ac_btn = tk.Button(root, text=f"AC", font=("", 30), width=4, height=2)
-# ac_btn.bind("<1>", ac_click)
-# ac_btn.bind("<Enter>", enter_bg)
-# ac_btn.bind("<Leave>", leave_bg)
-# ac_btn.grid(row=2, column=3)
+ac_btn = tk.Button(root, text=f"AC", font=("", 30), width=14, height=2)
+ac_btn.bind("<1>", ac_click)
+ac_btn.bind("<Enter>", enter_bg)
+ac_btn.bind("<Leave>", leave_bg)
+ac_btn.grid(row=5, column=0, columnspan=4)
 
 #-----演算子ボタン
 
