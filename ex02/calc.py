@@ -1,6 +1,4 @@
-from ast import operator
 import tkinter as tk
-import tkinter.messagebox as tkm
 
 def btn_click(event):
     btn = event.widget
