@@ -18,13 +18,6 @@ def delete_click(event):
     str = entry.get()[:-1]
     entry.delete(0, tk.END)
     entry.insert(tk.END, str)
-    
-    
-def enter_bg(event):
-    event.widget['bg'] = '#b0c4de'
-    
-def leave_bg(event):
-    event.widget['bg'] = "SystemButtonFace"
      
 def equal_click(event):
     try:
@@ -37,6 +30,11 @@ def equal_click(event):
     entry.delete(0, tk.END)
     entry.insert(tk.END, result)
     
+def enter_bg(event):
+    event.widget['bg'] = '#b0c4de'
+    
+def leave_bg(event):
+    event.widget['bg'] = "SystemButtonFace"    
 
 root = tk.Tk()
 root.title("電卓")
