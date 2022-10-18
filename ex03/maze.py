@@ -24,6 +24,8 @@ def main_proc():
         mx += 1
     elif key == "Left":
         mx -= 1
+    elif key == "r":
+        mx, my == 1, 1
         
     if maze_lst[my][mx] == 0: #床の処理
         canv.coords("tori", cx * mx + 50, cy * my + 50)   
@@ -36,7 +38,7 @@ def main_proc():
         canv.coords("tori", cx * mx + 50, cy * my + 50)
         tkm.showinfo("ゴールしました", "ゴールしたので、ウィンドウを閉じます")
         root.destroy()
-        
+
     root.after(100, main_proc)
     
 
