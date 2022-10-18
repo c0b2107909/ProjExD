@@ -36,7 +36,7 @@ def main_proc():
             
     elif maze_lst[my][mx] == 2:#ゴールの処理
         index = 1
-        canv.create_image(cx, cy, image=ls[index], tag="goal")
+        canv.create_image(cx, cy, image=imgs_ls[index], tag="goal")
         canv.delete('tori')
         canv.coords("goal", cx * mx + 50, cy * my + 50)
         tkm.showinfo("ゴールしました", "ゴールしたので、ウィンドウを閉じます")
@@ -62,9 +62,9 @@ if __name__ == "__main__":
     
     mx, my = 1, 1
     cx, cy = 100 * mx, 100 * my
-    ls = [tk.PhotoImage(file="./fig/2.png"), tk.PhotoImage(file="./fig/6.png")]
+    imgs_ls = [tk.PhotoImage(file="./fig/2.png"), tk.PhotoImage(file="./fig/6.png")] #イメージのリスト
     
-    canv.create_image(cx, cy, image=ls[index], tag="tori")
+    canv.create_image(cx, cy, image=imgs_ls[index], tag="tori")
     
     main_proc()
 
