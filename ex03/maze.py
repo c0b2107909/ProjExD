@@ -2,7 +2,7 @@ import tkinter as tk
 import tkinter.messagebox as tkm
 import maze_maker as mm
 
-index = 0
+index = 0 #イメージのインデックス番号
 
 def key_down(event):
     global key
@@ -15,7 +15,7 @@ def key_up(event):
     
     
 def main_proc():
-    global mx, my
+    global mx, my, index
     if key == "Up":
         my -= 1
     elif key == "Down":
@@ -35,7 +35,10 @@ def main_proc():
         canv.coords("tori", cx * mx + 50, cy * my + 50)  
             
     elif maze_lst[my][mx] == 2:#ゴールの処理
-        canv.coords("tori", cx * mx + 50, cy * my + 50)
+        index = 1
+        canv.create_image(cx, cy, image=ls[index], tag="goal")
+        canv.delete('tori')
+        canv.coords("goal", cx * mx + 50, cy * my + 50)
         tkm.showinfo("ゴールしました", "ゴールしたので、ウィンドウを閉じます")
         root.destroy()
 
@@ -59,8 +62,9 @@ if __name__ == "__main__":
     
     mx, my = 1, 1
     cx, cy = 100 * mx, 100 * my
-    file = tk.PhotoImage(file="./fig/2.png")
-    canv.create_image(cx, cy, image=file, tag="tori")
+    ls = [tk.PhotoImage(file="./fig/2.png"), tk.PhotoImage(file="./fig/6.png")]
+    
+    canv.create_image(cx, cy, image=ls[index], tag="tori")
     
     main_proc()
 
