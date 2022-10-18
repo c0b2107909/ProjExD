@@ -1,5 +1,5 @@
 import tkinter as tk
-import maze_maker
+import maze_maker as mm
 
 def key_down(event):
     global key
@@ -40,6 +40,9 @@ if __name__ == "__main__":
     canv.create_image(cx, cy, image=tori, tag="tori")
     
     main_proc()
+    
+    maze_lst = mm.make_maze(15, 9)
+    mm.show_maze(canvas=canv, maze_lst=maze_lst)
     
     root.mainloop()
     
