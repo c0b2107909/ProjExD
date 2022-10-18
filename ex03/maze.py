@@ -6,6 +6,8 @@ if __name__ == "__main__":
     root.geometry("1500x900")
     root.configure(bg = "black")
 
+    key = ""
+    
     # tori = tk.PhotoImage(file="./fig/5.png")
     # cx, cy = 300, 400
     # root.create_image(cx, cy, image=tori, tag="tori")
