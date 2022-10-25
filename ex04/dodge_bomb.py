@@ -1,10 +1,12 @@
 import pygame as pg
 import sys
+from random import randint
 
 def main():
     """ゲームの本体関数"""
     pg.display.set_caption("逃げろ！こうかとん") #タイトル
     scrn_sfc = pg.display.set_mode((1600, 900)) #ウィンドウ
+    scrn_rct = scrn_sfc.get_rect()
 
     # 背景
     bg_sfc = pg.image.load("fig/pg_bg.jpg") #Surface
@@ -15,6 +17,15 @@ def main():
     tori_sfc = pg.transform.rotozoom(tori_sfc, 0, 2.0)
     tori_rct = tori_sfc.get_rect() #Rect
     tori_rct.center = 900, 400
+    
+    # 爆弾
+    bomb_sfc = pg.Surface((20, 20))
+    bomb_sfc.set_colorkey((0, 0, 0))
+    pg.draw.circle(bomb_sfc,(255, 0, 0), (10, 10), 10)
+    bomb_rct = bomb_sfc.get_rect()
+    bomb_rct.centerx = randint(0, scrn_rct.width)
+    bomb_rct.centery = randint(0, scrn_rct.height)
+    
     
     # クロック
     clock = pg.time.Clock()
@@ -38,6 +49,7 @@ def main():
             
             
         scrn_sfc.blit(tori_sfc, tori_rct) # 貼り付け
+        scrn_sfc.blit(bomb_sfc, bomb_rct)
         
         pg.display.update()
         clock.tick(1000) # = 2500秒間
