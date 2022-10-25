@@ -26,6 +26,8 @@ def main():
     bomb_rct.centerx = randint(0, scrn_rct.width)
     bomb_rct.centery = randint(0, scrn_rct.height)
     
+    vx, vy = 1, 1
+    
     
     # クロック
     clock = pg.time.Clock()
@@ -37,6 +39,7 @@ def main():
             if event.type == pg.QUIT: # pg.QUIT = バツボタン
                 return  #メイン関数から出る
         
+        # こうかとん移動キー受付
         key_stats = pg.key.get_pressed()
         if key_stats[pg.K_UP]:
             tori_rct.centery -= 1
@@ -45,10 +48,10 @@ def main():
         if key_stats[pg.K_RIGHT]:
             tori_rct.centerx += 1
         if key_stats[pg.K_LEFT]:
-            tori_rct.centerx -= 1
-            
-            
+            tori_rct.centerx -= 1    
         scrn_sfc.blit(tori_sfc, tori_rct) # 貼り付け
+        
+        bomb_rct.move_ip(vx, vy)
         scrn_sfc.blit(bomb_sfc, bomb_rct)
         
         pg.display.update()
