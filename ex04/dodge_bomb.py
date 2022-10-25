@@ -1,6 +1,6 @@
 import pygame as pg
 import sys
-from random import randint
+from random import randint, uniform
 
 def check_bound(obj_rct, scrn_rct):
     """
@@ -20,27 +20,37 @@ def main():
     pg.display.set_caption("逃げろ！こうかとん") #タイトル
     scrn_sfc = pg.display.set_mode((1600, 900)) #ウィンドウ
     scrn_rct = scrn_sfc.get_rect()
+    time = pg.time.get_ticks()
 
     # 背景
     bg_sfc = pg.image.load("fig/pg_bg.jpg") #Surface
     bg_rct = bg_sfc.get_rect() #Rect
     
     # こうかとん
+    tori_size = 2.0
     tori_sfc = pg.image.load("fig/6.png") #Surface
-    tori_sfc = pg.transform.rotozoom(tori_sfc, 0, 2.0)
+    tori_sfc = pg.transform.rotozoom(tori_sfc, 0, tori_size)
     tori_rct = tori_sfc.get_rect() #Rect
     tori_rct.center = 900, 400
+    kx, ky = 2, 2 #こうかとん速度
     
-    # 爆弾
-    bomb_sfc = pg.Surface((20, 20))
-    bomb_sfc.set_colorkey((0, 0, 0))
-    pg.draw.circle(bomb_sfc,(255, 0, 0), (10, 10), 10)
-    bomb_rct = bomb_sfc.get_rect()
-    bomb_rct.centerx = randint(0, scrn_rct.width)
-    bomb_rct.centery = randint(0, scrn_rct.height)
+    # 爆弾（赤）
+    bomb_red_sfc = pg.Surface((20, 20))
+    bomb_red_sfc.set_colorkey((0, 0, 0))
+    pg.draw.circle(bomb_red_sfc,(255, 0, 0), (10, 10), 10)
+    bomb_red_rct = bomb_red_sfc.get_rect()
+    bomb_red_rct.centerx = randint(0, scrn_rct.width)
+    bomb_red_rct.centery = randint(0, scrn_rct.height)
+    vx, vy = 1, 1 # 爆弾移動速度
     
-    vx, vy = 1, 1
-    
+    # 爆弾（緑）
+    bomb_green_sfc = pg.Surface((40, 40))
+    bomb_green_sfc.set_colorkey((0, 0, 0))
+    pg.draw.circle(bomb_green_sfc,(0, 255, 0), (20, 20), 20)
+    bomb_green_rct = bomb_green_sfc.get_rect()
+    bomb_green_rct.centerx = randint(0, scrn_rct.width)
+    bomb_green_rct.centery = randint(0, scrn_rct.height)
+    vx_g, vy_g = 1, 1 
     
     # クロック
     clock = pg.time.Clock()
@@ -54,33 +64,60 @@ def main():
         
         # こうかとん移動
         key_stats = pg.key.get_pressed()
-        if key_stats[pg.K_UP]: tori_rct.centery -= 1
-        if key_stats[pg.K_DOWN]: tori_rct.centery += 1
-        if key_stats[pg.K_RIGHT]: tori_rct.centerx += 1
-        if key_stats[pg.K_LEFT]: tori_rct.centerx -= 1        
+        if key_stats[pg.K_UP]: tori_rct.centery -= ky
+        if key_stats[pg.K_DOWN]: tori_rct.centery += ky
+        if key_stats[pg.K_RIGHT]: tori_rct.centerx += kx
+        if key_stats[pg.K_LEFT]: tori_rct.centerx -= kx
+        # 画面外判定        
         yoko, tate = check_bound(tori_rct, scrn_rct)
         if yoko == -1:
             if key_stats[pg.K_LEFT]:
-                tori_rct.centerx += 1
+                tori_rct.centerx += kx
             if key_stats[pg.K_RIGHT]:
-                tori_rct.centerx -= 1       
+                tori_rct.centerx -= kx       
         if tate == -1:
             if key_stats[pg.K_UP]:
-                tori_rct.centery += 1
+                tori_rct.centery += ky
             if key_stats[pg.K_DOWN]:
-                tori_rct.centery -= 1
+                tori_rct.centery -= ky  
+        # こうかとん加速
+        if key_stats[pg.K_k]:
+            ky += 0.1
+            kx += 0.1
         scrn_sfc.blit(tori_sfc, tori_rct) # 貼り付け
         
-        #爆弾移動
-        yoko, tate = check_bound(bomb_rct, scrn_rct)
+        #爆弾（赤）移動
+        yoko, tate = check_bound(bomb_red_rct, scrn_rct)
         vx *= yoko
         vy *= tate
-        bomb_rct.move_ip(vx, vy)
-        scrn_sfc.blit(bomb_sfc, bomb_rct)
+        if time % 3000:
+            vx += uniform(-0.5, 0.5)
+            vy += uniform(-0.5, 0.5)
+        bomb_red_rct.move_ip(vx, vy)
+        scrn_sfc.blit(bomb_red_sfc, bomb_red_rct)
         
-        #あたり判定
-        if tori_rct.colliderect(bomb_rct):
-            return 
+        #爆弾（緑）移動
+        yoko, tate = check_bound(bomb_green_rct, scrn_rct)
+        vx_g *= yoko
+        vy_g *= tate
+        bomb_green_rct.move_ip(vx_g, vy_g)
+        scrn_sfc.blit(bomb_green_sfc, bomb_green_rct)
+        
+        
+        #あたり判定 爆弾（赤）
+        if tori_rct.colliderect(bomb_red_rct):
+            fonto = pg.font.Font(None, 100)
+            txt = fonto.render("GAMEOVER", True, "RED")        
+            scrn_sfc.blit(txt, (800, 450))
+            pg.display.update()
+            pg.time.wait(1000)
+            return
+        
+        #あたり判定 爆弾（緑）
+        if tori_rct.colliderect(bomb_green_rct):
+            idx = randint(0, 9)
+            tori_sfc = pg.image.load(f"fig/{idx}.png") #Surface
+            tori_sfc = pg.transform.rotozoom(tori_sfc, 0, tori_size)
         
         pg.display.update()
         clock.tick(1000) # = 2500秒間
