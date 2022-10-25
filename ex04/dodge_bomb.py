@@ -2,6 +2,19 @@ import pygame as pg
 import sys
 from random import randint
 
+def check_bound(obj_rct, scrn_rct):
+    """
+    obj_rct = こうかとん・爆弾rct
+    scrn_rct = スクリーンrct
+    領域内：-1・領域内：1
+    """
+    yoko, tate = 1, 1
+    if obj_rct.left < scrn_rct.left or scrn_rct.right < obj_rct.right: # x軸の判定
+        yoko = -1
+    if obj_rct.top < scrn_rct.top or scrn_rct.bottom < obj_rct.bottom: # y軸の判定
+        tate = -1
+    return yoko, tate
+
 def main():
     """ゲームの本体関数"""
     pg.display.set_caption("逃げろ！こうかとん") #タイトル
@@ -39,18 +52,29 @@ def main():
             if event.type == pg.QUIT: # pg.QUIT = バツボタン
                 return  #メイン関数から出る
         
-        # こうかとん移動キー受付
+        # こうかとん移動
         key_stats = pg.key.get_pressed()
-        if key_stats[pg.K_UP]:
-            tori_rct.centery -= 1
-        if key_stats[pg.K_DOWN]:
-            tori_rct.centery += 1
-        if key_stats[pg.K_RIGHT]:
-            tori_rct.centerx += 1
-        if key_stats[pg.K_LEFT]:
-            tori_rct.centerx -= 1    
+        if key_stats[pg.K_UP]: tori_rct.centery -= 1
+        if key_stats[pg.K_DOWN]: tori_rct.centery += 1
+        if key_stats[pg.K_RIGHT]: tori_rct.centerx += 1
+        if key_stats[pg.K_LEFT]: tori_rct.centerx -= 1        
+        yoko, tate = check_bound(tori_rct, scrn_rct)
+        if yoko == -1:
+            if key_stats[pg.K_LEFT]:
+                tori_rct.centerx += 1
+            if key_stats[pg.K_RIGHT]:
+                tori_rct.centerx -= 1       
+        if tate == -1:
+            if key_stats[pg.K_UP]:
+                tori_rct.centery += 1
+            if key_stats[pg.K_DOWN]:
+                tori_rct.centery -= 1
         scrn_sfc.blit(tori_sfc, tori_rct) # 貼り付け
         
+        #爆弾移動
+        yoko, tate = check_bound(bomb_rct, scrn_rct)
+        vx *= yoko
+        vy *= tate
         bomb_rct.move_ip(vx, vy)
         scrn_sfc.blit(bomb_sfc, bomb_rct)
         
