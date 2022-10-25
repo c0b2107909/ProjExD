@@ -25,6 +25,17 @@ def main():
         for event in pg.event.get():
             if event.type == pg.QUIT: # pg.QUIT = バツボタン
                 return  #メイン関数から出る
+        
+        key_stats = pg.key.get_pressed()
+        if key_stats[pg.K_UP]:
+            tori_rct.centery -= 1
+        if key_stats[pg.K_DOWN]:
+            tori_rct.centery += 1
+        if key_stats[pg.K_RIGHT]:
+            tori_rct.centerx += 1
+        if key_stats[pg.K_LEFT]:
+            tori_rct.centerx -= 1
+            
             
         scrn_sfc.blit(tori_sfc, tori_rct) # 貼り付け
         
