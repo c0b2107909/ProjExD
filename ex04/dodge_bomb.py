@@ -41,7 +41,7 @@ def main():
     bomb_red_rct = bomb_red_sfc.get_rect()
     bomb_red_rct.centerx = randint(0, scrn_rct.width)
     bomb_red_rct.centery = randint(0, scrn_rct.height)
-    vx, vy = 1, 1 # 爆弾移動速度
+    vx_r, vy_r = 1, 1 # 爆弾移動速度
     
     # 爆弾（緑）
     bomb_green_sfc = pg.Surface((40, 40))
@@ -88,12 +88,12 @@ def main():
         
         #爆弾（赤）移動
         yoko, tate = check_bound(bomb_red_rct, scrn_rct)
-        vx *= yoko
-        vy *= tate
+        vx_r *= yoko
+        vy_r *= tate
         if time % 3000:
-            vx += uniform(-0.5, 0.5)
-            vy += uniform(-0.5, 0.5)
-        bomb_red_rct.move_ip(vx, vy)
+            vx_r += uniform(-0.5, 0.5)
+            vy_r += uniform(-0.5, 0.5)
+        bomb_red_rct.move_ip(vx_r, vy_r)
         scrn_sfc.blit(bomb_red_sfc, bomb_red_rct)
         
         #爆弾（緑）移動
