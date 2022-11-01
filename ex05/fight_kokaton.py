@@ -2,8 +2,6 @@ import pygame as pg
 import sys
 from random import randint
 
-
-
 class Screen:
     def __init__(self, title, wh, bgimg):
         pg.display.set_caption(title) #逃げろ！こうかとん
@@ -84,18 +82,19 @@ class Bomb:
         self.blit(scr) # =scr.sfc.blit(self.sfc, self.rct)
 
 
-# class Score:
-#     def __init__(self):
-#         self.num = 0
-#         self.font = pg.font.Font(None, 20)
-#         self.font.set_italic(1)
-#         self.font = self.font.render(str(self.num), True, "White")   
+class Score:
+    def __init__(self):
+        self.num = 0
+        self.font = pg.font.Font(None, 20)
+        self.font.set_italic(1)
+        self.font = self.font.render(str(self.num), True, "White")   
    
-#     def update(self, scr:Screen):
-#         scr.sfc.blit(self.font, (20, 100))
+    def update(self, scr:Screen):
+        scr.sfc.blit(self.font, (20, 100))
         
-#     def plus(self):
-#         self.num += 1    
+    def plus(self):
+        self.num += 1    
+  
         
 def check_bound(obj_rct, scr_rct):
     """
@@ -113,33 +112,29 @@ def check_bound(obj_rct, scr_rct):
 
 def main():
     shoted = False
-    # 練習1
-    scr = Screen("逃げろ！こうかとん", (1600, 900), "fig/pg_bg.jpg")
 
-    # 練習3
+    scr = Screen("負けるな！こうかとん", (1600, 900), "fig/pg_bg.jpg")
+
     kkt = Bird("fig/6.png", 2.0, (900, 400))
 
-    # 練習5
     bkd = Bomb((255, 0, 0), 30, (+1, +1), scr)
     
-    # score = Score()
+    score = Score()
 
-    clock = pg.time.Clock() # 練習1
+    clock = pg.time.Clock()
     while True:
         
-        scr.blit() # 練習2
+        scr.blit()
         
-        for event in pg.event.get(): # 練習2
+        for event in pg.event.get():
             if event.type == pg.QUIT:
                 return
-
-        # 練習4
+            
         kkt.update(scr)
 
-        # 練習7
         bkd.update(scr)
         
-        # score.update(scr)
+        score.update(scr)
         
         keystate = pg.key.get_pressed()
         if keystate[pg.K_SPACE]:
@@ -149,11 +144,9 @@ def main():
             shot.update(scr)
             
             if shot.rct.colliderect(bkd.rct):
-                # score.plus()
+                score.plus()
                 return 
-                
-        
-        # 練習8
+
         if kkt.rct.colliderect(bkd.rct): # こうかとんrctが爆弾rctと重なったら
             return
 
