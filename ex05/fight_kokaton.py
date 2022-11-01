@@ -2,6 +2,7 @@ import pygame as pg
 import sys
 from random import randint
 
+
 class Screen:
     def __init__(self, title, wh, bgimg):
         pg.display.set_caption(title) #逃げろ！こうかとん
@@ -85,12 +86,11 @@ class Bomb:
 class Score:
     def __init__(self):
         self.num = 0
-        self.font = pg.font.Font(None, 20)
-        self.font.set_italic(1)
-        self.font = self.font.render(str(self.num), True, "White")   
+        self.font = pg.font.Font(None, 55) 
+        self.text = self.font.render(f"{self.num}", True, (255,255,255))   # 描画する文字列の設定 
    
     def update(self, scr:Screen):
-        scr.sfc.blit(self.font, (20, 100))
+        scr.sfc.blit(self.text, [20, 100])# 文字列の表示位置
         
     def plus(self):
         self.num += 1    
@@ -120,10 +120,11 @@ def main():
     bkd = Bomb((255, 0, 0), 30, (+1, +1), scr)
     
     score = Score()
+    
+    pg.display.update()
 
     clock = pg.time.Clock()
     while True:
-        
         scr.blit()
         
         for event in pg.event.get():
@@ -135,7 +136,7 @@ def main():
         bkd.update(scr)
         
         score.update(scr)
-        
+
         keystate = pg.key.get_pressed()
         if keystate[pg.K_SPACE]:
             shot = Shot((255,0,255), 10, -10, (kkt.rct.centerx, kkt.rct.centery),   scr)
@@ -145,7 +146,7 @@ def main():
             
             if shot.rct.colliderect(bkd.rct):
                 score.plus()
-                return 
+                #return 
 
         if kkt.rct.colliderect(bkd.rct): # こうかとんrctが爆弾rctと重なったら
             return
