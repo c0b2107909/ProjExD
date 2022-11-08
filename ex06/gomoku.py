@@ -2,8 +2,8 @@ import tkinter as tk
 from tkinter import messagebox
 
 # 定数
-CANVAS_SIZE = 700
-NUM_LINE = 10 #ラインの数
+SIZE = 700
+LINE_NUM = 10 #ラインの数
 
 PLAYER1_COLOR = 'black' # Player1の石の色
 PLAYER2_COLOR = 'white' # Player2の石の色
@@ -25,59 +25,59 @@ class Gobang():
         self.tmr = 100
         self.lbltimer = tk.Label(text="timer: " +str(self.tmr),font=("",20)) 
 
-        self.createWidgets()
+        self.create_canvas()
 
         # イベントの設定
-        self.setEvents()
+        self.set_event()
 
         # 五目並べゲームの初期化
-        self.initGobang()
+        self.init_gobang()
         
         self.timer()
 
 
-    def createWidgets(self):
+    def create_canvas(self):
         '''ウィジェットを作成・配置する'''
         # キャンバスの作成
         self.canvas = tk.Canvas(
             self.master,
-            width=CANVAS_SIZE,
-            height=CANVAS_SIZE,
+            width=SIZE,
+            height=SIZE,
             highlightthickness=0
         )
         
         self.canvas.pack(padx=10, pady=10)
         self.bg_image = tk.PhotoImage(file='woodgrain.png')
         self.canvas.create_image(
-                CANVAS_SIZE / 2,       # 画像表示位置(Canvasの中心)
-                CANVAS_SIZE / 2,                   
+                SIZE / 2,       # 画像表示位置(Canvasの中心)
+                SIZE / 2,                   
                 image=self.bg_image  # 表示画像データ
                 )
         
         self.lbltimer.pack()
-        self.lbltimer.place(x=CANVAS_SIZE / 2, y=CANVAS_SIZE / 2)   
+        self.lbltimer.place(x=SIZE / 2, y=SIZE / 2)   
 
-    def setEvents(self):
+    def set_event(self):
         '''イベントを設定する'''
         self.canvas.bind('<ButtonPress>', self.click, self.timer)
 
 
-    def initGobang(self):
+    def init_gobang(self):
         '''ゲームの初期化を行う'''
 
-        self.board = [[None] * (NUM_LINE) for i in range(NUM_LINE)]
+        self.board = [[None] * (LINE_NUM) for i in range(LINE_NUM)]
 
-        self.interval = CANVAS_SIZE // (NUM_LINE + 1)
+        self.interval = SIZE // (LINE_NUM + 1)
 
         self.offset_x = self.interval
         self.offset_y = self.interval
 
         # 縦線を描画
-        for x in range(NUM_LINE):
+        for x in range(LINE_NUM):
             xs = x * self.interval + self.offset_x
             ys = self.offset_y
             xe = xs
-            ye = (NUM_LINE - 1) * self.interval + self.offset_y
+            ye = (LINE_NUM - 1) * self.interval + self.offset_y
 
             self.canvas.create_line(
                 xs, ys,
@@ -85,10 +85,10 @@ class Gobang():
             )
 
         # 横線を描画
-        for y in range(NUM_LINE):
+        for y in range(LINE_NUM):
             xs = self.offset_x
             ys = y * self.interval + self.offset_y
-            xe = (NUM_LINE - 1) * self.interval + self.offset_x
+            xe = (LINE_NUM - 1) * self.interval + self.offset_x
             ye = ys
                 
             self.canvas.create_line(
@@ -96,7 +96,7 @@ class Gobang():
                 xe, ye,
             )
 
-    def drawDisk(self, x, y, color):
+    def draw_disk(self, x, y, color):
         '''円を描画する'''
 
         # 中心座標を計算
@@ -119,7 +119,7 @@ class Gobang():
 
         return tag
 
-    def getIntersection(self, x, y):
+    def intersection(self, x, y):
         '''キャンバス上の座標を交点の位置に変換'''
 
         ix = (x - self.offset_x + self.interval // 2) // self.interval
@@ -129,9 +129,9 @@ class Gobang():
 
     def click(self, event):
         '''盤面がクリックされた時の処理'''
-        x, y = self.getIntersection(event.x, event.y)
+        x, y = self.intersection(event.x, event.y)
 
-        if x < 0 or x >= NUM_LINE or y < 0 or y >= NUM_LINE:
+        if x < 0 or x >= LINE_NUM or y < 0 or y >= LINE_NUM:
             return
 
         if not self.board[y][x]:
@@ -139,7 +139,7 @@ class Gobang():
 
     def place(self, x, y, color):
         '''石を置く'''
-        self.drawDisk(x, y, color)
+        self.draw_disk(x, y, color)
         self.board[y][x] = color
 
         if self.count(x, y, color) >= 5:
@@ -165,12 +165,12 @@ class Gobang():
 
         for i, j in count_dir:
             count_num = 1
-            for s in range(1, NUM_LINE):
+            for s in range(1, LINE_NUM):
                 
                 xi = x + i * s
                 yj = y + j * s
 
-                if xi < 0 or xi >= NUM_LINE or yj < 0 or yj >= NUM_LINE:
+                if xi < 0 or xi >= LINE_NUM or yj < 0 or yj >= LINE_NUM:
                     break
 
                 if self.board[yj][xi] != color:
@@ -178,11 +178,11 @@ class Gobang():
 
                 count_num += 1
 
-            for s in range(-1, -(NUM_LINE), -1):
+            for s in range(-1, -(LINE_NUM), -1):
                 xi = x + i * s
                 yj = y + j * s
 
-                if xi < 0 or xi >= NUM_LINE or yj < 0 or yj >= NUM_LINE:
+                if xi < 0 or xi >= LINE_NUM or yj < 0 or yj >= LINE_NUM:
                     break
 
                 if self.board[yj][xi] != color:
