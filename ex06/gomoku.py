@@ -11,6 +11,7 @@ PLAYER2_COLOR = 'white' # Player2の石の色
 PLAYER1 = 1
 PLAYER2 = 2
 
+
 class Gobang():
     def __init__(self, master):
         '''コンストラクタ'''
@@ -22,8 +23,6 @@ class Gobang():
             PLAYER2 : PLAYER2_COLOR
         }
         self.nextDisk = None
-        # self.tmr = 100
-        # self.lbltimer = tk.Label(text="timer: " +str(self.tmr),font=("",20)) 
 
         self.create_canvas()
 
@@ -201,19 +200,6 @@ class Gobang():
         else:
             messagebox.showinfo('結果', 'プレイヤー2の勝ち')
     
-    # def timer(self):
-    #     '''タイマー'''
-    #     if self.tmr == 0:
-    #         messagebox.showinfo("終了") #メッセージを表示
-    #         self.tmr=100                 #timerを100にして
-    #     self.tmr=self.tmr-1                   #timerを減らす
-    #     self.lbltimer["text"]= "timer: "+str(self.tmr/10)     #timerを表示
-    #     if self.tmr < 30 :                               #3秒きったら
-    #         self.lbltimer["foreground"]="#ff0000"        #文字の色を赤にする
-    #     else:
-    #        self. lbltimer["foreground"]="#000000"        #文字の色を黒にする
-        
-    #     self.master.after(100, self.timer)  
 
 if __name__ == "__main__":
     app = tk.Tk()
