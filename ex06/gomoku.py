@@ -22,8 +22,8 @@ class Gobang():
             PLAYER2 : PLAYER2_COLOR
         }
         self.nextDisk = None
-        self.tmr = 100
-        self.lbltimer = tk.Label(text="timer: " +str(self.tmr),font=("",20)) 
+        # self.tmr = 100
+        # self.lbltimer = tk.Label(text="timer: " +str(self.tmr),font=("",20)) 
 
         self.create_canvas()
 
@@ -33,7 +33,7 @@ class Gobang():
         # 五目並べゲームの初期化
         self.init_gobang()
         
-        self.timer()
+        # self.timer()
 
 
     def create_canvas(self):
@@ -54,12 +54,12 @@ class Gobang():
                 image=self.bg_image  # 表示画像データ
                 )
         
-        self.lbltimer.pack()
-        self.lbltimer.place(x=SIZE / 2, y=SIZE / 2)   
+        # self.lbltimer.pack()
+        # self.lbltimer.place(x=SIZE / 2, y=SIZE / 2)   
 
     def set_event(self):
         '''イベントを設定する'''
-        self.canvas.bind('<ButtonPress>', self.click, self.timer)
+        self.canvas.bind('<ButtonPress>', self.click)
 
 
     def init_gobang(self):
@@ -201,19 +201,19 @@ class Gobang():
         else:
             messagebox.showinfo('結果', 'プレイヤー2の勝ち')
     
-    def timer(self):
-        '''タイマー'''
-        if self.tmr == 0:
-            messagebox.showinfo("終了") #メッセージを表示
-            self.tmr=100                 #timerを100にして
-        self.tmr=self.tmr-1                   #timerを減らす
-        self.lbltimer["text"]= "timer: "+str(self.tmr/10)     #timerを表示
-        if self.tmr < 30 :                               #3秒きったら
-            self.lbltimer["foreground"]="#ff0000"        #文字の色を赤にする
-        else:
-           self. lbltimer["foreground"]="#000000"        #文字の色を黒にする
+    # def timer(self):
+    #     '''タイマー'''
+    #     if self.tmr == 0:
+    #         messagebox.showinfo("終了") #メッセージを表示
+    #         self.tmr=100                 #timerを100にして
+    #     self.tmr=self.tmr-1                   #timerを減らす
+    #     self.lbltimer["text"]= "timer: "+str(self.tmr/10)     #timerを表示
+    #     if self.tmr < 30 :                               #3秒きったら
+    #         self.lbltimer["foreground"]="#ff0000"        #文字の色を赤にする
+    #     else:
+    #        self. lbltimer["foreground"]="#000000"        #文字の色を黒にする
         
-        self.master.after(100, self.timer)  
+    #     self.master.after(100, self.timer)  
 
 if __name__ == "__main__":
     app = tk.Tk()
