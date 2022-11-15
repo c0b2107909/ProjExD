@@ -135,7 +135,7 @@ class Gobang():
         self.board[y][x] = color
 
         if self.count(x, y, color) >= 5:
-            self.showResult()
+            self.show_result()
             return
 
         if self.player == PLAYER2:
