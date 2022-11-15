@@ -75,6 +75,7 @@ class Gobang():
             self.canvas.create_line(
                 xs, ys,
                 xe, ye,
+                width=4
             )
 
         # 横線を描画
@@ -87,6 +88,7 @@ class Gobang():
             self.canvas.create_line(
                 xs, ys,
                 xe, ye,
+                width=4
             )
 
     def draw_disk(self, x, y, color):
