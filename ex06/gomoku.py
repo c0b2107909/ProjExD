@@ -8,8 +8,9 @@ LINE_NUM = 10 #ラインの数
 PLAYER1_COLOR = 'black' # Player1の石の色
 PLAYER2_COLOR = 'white' # Player2の石の色
 
-PLAYER1 = 1
-PLAYER2 = 2
+PLAYER1 = 1 #先攻
+PLAYER2 = 2 #後攻
+
 
 
 class Gobang():
@@ -32,9 +33,6 @@ class Gobang():
         # 五目並べゲームの初期化
         self.init_gobang()
         
-        # self.timer()
-
-
     def create_canvas(self):
         '''ウィジェットを作成・配置する'''
         # キャンバスの作成
@@ -53,13 +51,9 @@ class Gobang():
                 image=self.bg_image  # 表示画像データ
                 )
         
-        # self.lbltimer.pack()
-        # self.lbltimer.place(x=SIZE / 2, y=SIZE / 2)   
-
     def set_event(self):
         '''イベントを設定する'''
         self.canvas.bind('<ButtonPress>', self.click)
-
 
     def init_gobang(self):
         '''ゲームの初期化を行う'''
@@ -192,7 +186,11 @@ class Gobang():
                 max = count_num
         return max
 
-    def show_result(self):
+#<<<<<<< HEAD
+    #def show_result(self):
+#=======
+    def show_result(self):#修正(関数名の変更)C0B21123永野一輝
+#>>>>>>> 2151f9111ec3007d46bcf4f5b04b50b089be3452
         '''ゲーム終了時の結果を表示する'''
         winner = self.player
         if winner == PLAYER1:
